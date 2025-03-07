@@ -58,17 +58,22 @@
         <button class="retry-button" id="retryButton">Попробовать ещё раз</button>
     </div>
 
-    <audio id="errorAudio" src="sound.mp3"></audio>
+    <audio id="errorAudio">
+        <source src="sound.mp3" type="audio/mpeg">
+        <source src="sound.ogg" type="audio/ogg">
+    </audio>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var errorMessage = document.getElementById("errorMessage");
-            if (errorMessage) {
-                var audio = document.getElementById("errorAudio");
-                audio.play().catch(function(error) {
-                    console.log("Воспроизведение звука заблокировано:", error);
-                });
+        document.addEventListener("click", function() {
+            var audio = document.getElementById("errorAudio");
+            if (audio.paused) {
+                audio.play().catch(err => console.log("Ошибка воспроизведения:", err));
             }
+        }, { once: true });
+
+        document.getElementById("retryButton").addEventListener("click", function() {
+            var audio = document.getElementById("errorAudio");
+            audio.play().catch(err => console.log("Ошибка воспроизведения:", err));
         });
     </script>
 </body>
